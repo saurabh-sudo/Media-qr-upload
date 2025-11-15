@@ -5,7 +5,7 @@ import com.mediaupload.model.dto.MediaUploadRequest;
 import com.mediaupload.model.dto.MediaUploadResponse;
 import com.mediaupload.model.enums.QualityLevel;
 import com.mediaupload.service.MediaService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

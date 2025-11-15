@@ -2,7 +2,7 @@ package com.mediaupload.model.entity;
 
 import com.mediaupload.model.enums.MediaType;
 import com.mediaupload.model.enums.QualityLevel;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

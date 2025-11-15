@@ -1,17 +1,17 @@
 package com.mediaupload.config;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 /**
  * AWS S3 configuration class.
- * Configures S3 client and presigner for file operations.
+ * Configures S3 client for file operations using AWS SDK 1.x (Java 8 compatible).
  */
 @Configuration
 public class AwsS3Config {
@@ -26,32 +26,17 @@ public class AwsS3Config {
     private String secretKey;
 
     /**
-     * Configure S3 client bean.
+     * Configure S3 client bean using AWS SDK 1.x.
      *
-     * @return configured S3Client
+     * @return configured AmazonS3 client
      */
     @Bean
-    public S3Client s3Client() {
-        AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
+    public AmazonS3 amazonS3() {
+        BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-        return S3Client.builder()
-                .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(credentials))
-                .build();
-    }
-
-    /**
-     * Configure S3 presigner for generating pre-signed URLs.
-     *
-     * @return configured S3Presigner
-     */
-    @Bean
-    public S3Presigner s3Presigner() {
-        AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
-
-        return S3Presigner.builder()
-                .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(credentials))
+        return AmazonS3ClientBuilder.standard()
+                .withRegion(Regions.fromName(region))
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .build();
     }
 }
