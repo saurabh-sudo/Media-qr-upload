@@ -1,0 +1,24 @@
+# Development Profile Configuration
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mediaupload
+    username: postgres
+    password: postgres
+
+logging:
+  level:
+    root: INFO
+    com.mediaupload: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+
+app:
+  base-url: http://localhost:8080
+  frontend-url: http://localhost:3000
